@@ -1,3 +1,9 @@
+const RULES = {
+  OFF: 'off',
+  ERROR: 'error',
+  WARN: 'warn',
+};
+
 module.exports = {
   root: true,
   extends: '@react-native-community',
@@ -7,9 +13,31 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       rules: {
-        '@typescript-eslint/no-shadow': ['error'],
-        'no-shadow': 'off',
-        'no-undef': 'off',
+        // globals
+        'no-shadow': RULES.OFF,
+        'no-console': RULES.WARN,
+        'no-undef': 2,
+        // react
+        'react/no-did-mount-set-state': 2,
+        'react/no-direct-mutation-state': 2,
+        'react/jsx-uses-vars': 2,
+        'react/react-in-jsx-scope': RULES.OFF,
+        'react/prop-types': RULES.OFF,
+        'react/jsx-no-bind': [2, { allowArrowFunctions: true }],
+        'react/jsx-no-duplicate-props': 2,
+        'react/display-name': RULES.OFF,
+        'react-hooks/exhaustive-deps': RULES.WARN,
+        'react-hooks/rules-of-hooks': RULES.ERROR,
+        // prettier
+        'prettier/prettier': RULES.ERROR,
+        'arrow-body-style': RULES.OFF,
+        'prefer-arrow-callback': RULES.OFF,
+        'arrow-parens': [RULES.ERROR, 'as-needed'],
+        // ts
+        '@typescript-eslint/no-shadow': [RULES.ERROR],
+        '@typescript-eslint/no-var-requires': RULES.OFF,
+        '@typescript-eslint/no-use-before-define': RULES.OFF,
+        '@typescript-eslint/no-unused-vars': [2, { argsIgnorePattern: '^_' }],
       },
     },
   ],

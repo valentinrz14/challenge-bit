@@ -6,6 +6,10 @@
 #Enverimoments
 .env
 
+# Jest
+#
+.jest/
+
 # Xcode
 #
 build/
