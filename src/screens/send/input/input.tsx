@@ -1,10 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Colors } from '@core-styles/colors';
-import { Fonts } from '@core-styles/fonts';
 import { FormikHandlers, FormikValues } from 'formik';
 import {
-  Platform,
-  StyleSheet,
   Text,
   TextInput,
   TextInputProps,
@@ -12,7 +9,8 @@ import {
   View,
 } from 'react-native';
 import { ChallengeBitIcon } from '@core/components/icon';
-import { useGetBalance } from '@core/hooks/useGetBalance';
+import { FormValues } from '@screens/send/input/types';
+import { styles } from '@screens/send/input/input-styles';
 
 /*
  ** Types
@@ -22,7 +20,8 @@ interface InputProps extends TextInputProps {
   handleChange: FormikHandlers['handleChange'];
   handleOnBlur: FormikHandlers['handleBlur'];
   values: FormikValues;
-  name: string;
+  balance?: number;
+  name: keyof FormValues;
   error?: boolean | string;
   textError?: string;
   icon?: {
@@ -32,65 +31,9 @@ interface InputProps extends TextInputProps {
     handleOnPress?: () => void;
     disabled?: boolean;
   };
+  fees?: number;
   comision?: boolean;
 }
-
-/*
- ** Styles
- */
-
-const styles = StyleSheet.create({
-  containerInput: {
-    marginTop: 40,
-    padding: 20,
-    elevation: 4,
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,
-    backgroundColor: Colors.gray,
-    borderRadius: 8,
-  },
-  contentInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  input: {
-    padding: 0,
-    margin: 0,
-    width: '90%',
-    color: Colors.black,
-    fontFamily: Fonts.MontserratRegular,
-  },
-  line: {
-    height: 1,
-    marginTop: Platform.OS === 'ios' ? 5 : 0,
-    width: '90%',
-  },
-  textError: {
-    marginTop: 5,
-    color: Colors.red,
-    fontFamily: Fonts.MontserratRegular,
-    fontSize: 12,
-  },
-  titleComision: {
-    marginTop: 5,
-    fontFamily: Fonts.MontserratRegular,
-    color: Colors.black,
-    fontSize: 12,
-  },
-  titleBalance: {
-    marginBottom: 8,
-    textAlign: 'center',
-    fontFamily: Fonts.MontserratRegular,
-    color: Colors.black,
-    fontSize: 15,
-  },
-});
 
 /*
  ** Component
@@ -107,13 +50,14 @@ export const Input: FunctionComponent<InputProps> = ({
   textError,
   error,
   icon,
+  balance,
+  fees,
   comision,
   ...props
 }) => {
-  const { balance } = useGetBalance();
   const validationBorderColor = () => {
-    if (values[name] === '') {
-      return Colors.grayDark;
+    if (values[name] === '' || values[name] === '0') {
+      return Colors.greyMedium;
     } else if (error || textError) {
       return Colors.red;
     } else {
@@ -121,10 +65,13 @@ export const Input: FunctionComponent<InputProps> = ({
     }
   };
 
+  const TOTAL = (Number(values.amount) + Number(fees)).toFixed(8);
+  console.log(TOTAL);
+
   return (
     <View style={styles.containerInput}>
       {comision && (
-        <Text style={styles.titleBalance}>Tu balance: {balance}</Text>
+        <Text style={styles.titleBalance}>Tu balance: {balance} BTC</Text>
       )}
       <View style={styles.contentInput}>
         <TextInput
@@ -133,7 +80,7 @@ export const Input: FunctionComponent<InputProps> = ({
           maxFontSizeMultiplier={2}
           autoCorrect={false}
           autoCapitalize="none"
-          placeholderTextColor={Colors.grayDark}
+          placeholderTextColor={Colors.greyDark}
           placeholder={placeholder}
           onChangeText={handleChange(name)}
           onBlur={handleOnBlur(name)}
@@ -145,7 +92,8 @@ export const Input: FunctionComponent<InputProps> = ({
         {icon && (
           <TouchableOpacity
             disabled={icon.disabled}
-            onPress={icon.handleOnPress}>
+            onPress={icon.handleOnPress}
+          >
             <ChallengeBitIcon
               iconProps={{
                 name: icon.name,
@@ -161,7 +109,10 @@ export const Input: FunctionComponent<InputProps> = ({
       />
       {error && textError && <Text style={styles.textError}>{textError}</Text>}
       {comision && (
-        <Text style={styles.titleComision}>Comision de la red: 0.12</Text>
+        <Text style={styles.titleComision}>Comision de la red: {fees} BTC</Text>
+      )}
+      {!error && !textError && comision && (
+        <Text style={styles.titleTotal}>Total: {TOTAL} BTC</Text>
       )}
     </View>
   );

@@ -8,6 +8,8 @@ import { styles } from '@screens/home/home-list/render-item-list-styles';
 import { HomeListData, HomeListStateEnum } from '@api/types';
 import { useFormatDate } from '@core-hooks/useFormatDate';
 import { Colors } from '@core/styles/colors';
+import { homeDetailAddOperationDetail } from '@screens/home/detail/redux/home-detail-actions';
+import { useDispatch } from 'react-redux';
 
 /*
  ** Types
@@ -31,36 +33,40 @@ export const RenderItemList: FunctionComponent<RenderItemListProps> = ({
     currencySymbolConverted,
     state,
   },
+  item,
 }) => {
-  const { newDate } = useFormatDate({ date: date });
+  const dispatch = useDispatch();
 
+  const { newDate } = useFormatDate({ date: date });
   const { navigate } =
     useNavigation<NativeStackNavigationProp<HomeStackParamsList>>();
 
-  const handleGoToActivity = () => {
-    navigate('Details');
-  };
   const colorState = {
     [HomeListStateEnum.Aceptado]: Colors.green,
     [HomeListStateEnum.Rechazado]: Colors.red,
   };
 
+  const handleGoToActivity = () => {
+    navigate('Details');
+    dispatch(homeDetailAddOperationDetail(item));
+  };
+
   return (
     <TouchableOpacity style={styles.container} onPress={handleGoToActivity}>
       <View>
-        <Text style={[styles.titleTransfer, { color: colorState[state] }]}>
+        <Text style={[styles.title, { color: colorState[state] }]}>
           {title} {currencySymbol}
         </Text>
         <Spacer height={5} />
-        <Text style={styles.titleDate}>{newDate}</Text>
+        <Text style={styles.subtitle}>{newDate}</Text>
         <Spacer height={5} />
       </View>
       <View>
-        <Text style={[styles.titleValue, { color: colorState[state] }]}>
+        <Text style={[styles.title, { color: colorState[state] }]}>
           {currencyAmount} {currencySymbol}
         </Text>
         <Spacer height={5} />
-        <Text style={styles.titleValueTransform}>
+        <Text style={styles.subtitle}>
           {currencyAmountConverted} {currencySymbolConverted}
         </Text>
       </View>

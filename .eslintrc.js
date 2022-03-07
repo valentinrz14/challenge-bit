@@ -8,9 +8,18 @@ module.exports = {
   root: true,
   extends: '@react-native-community',
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'react', 'react-native'],
   overrides: [
     {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      env: {
+        browser: true,
+        'react-native/react-native': true,
+      },
       files: ['*.ts', '*.tsx'],
       rules: {
         // globals
@@ -38,6 +47,12 @@ module.exports = {
         '@typescript-eslint/no-var-requires': RULES.OFF,
         '@typescript-eslint/no-use-before-define': RULES.OFF,
         '@typescript-eslint/no-unused-vars': [2, { argsIgnorePattern: '^_' }],
+        // React Native
+        'react-native/no-unused-styles': 2,
+        'react-native/split-platform-components': 2,
+        'react-native/no-inline-styles': 2,
+        'react-native/no-color-literals': 2,
+        'react-native/no-raw-text': 2,
       },
     },
   ],

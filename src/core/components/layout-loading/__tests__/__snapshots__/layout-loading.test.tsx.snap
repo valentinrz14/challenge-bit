@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout loading should render Layout loading with size "large" and color "blue" 1`] = `[Function]`;
+
+exports[`Layout loading should render Layout loading with size "small" and color "black" 1`] = `[Function]`;

@@ -5,27 +5,17 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.greyLight,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  titleTransfer: {
+  title: {
     fontFamily: Fonts.MontserratRegular,
     fontSize: 15,
     color: Colors.black,
   },
-  titleDate: {
-    fontFamily: Fonts.MontserratLight,
-    fontSize: 12,
-    color: Colors.black,
-  },
-  titleValue: {
-    fontFamily: Fonts.MontserratRegular,
-    fontSize: 15,
-    color: Colors.black,
-  },
-  titleValueTransform: {
+  subtitle: {
     fontFamily: Fonts.MontserratLight,
     fontSize: 12,
     color: Colors.black,

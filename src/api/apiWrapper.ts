@@ -1,12 +1,7 @@
-import { HomeRatesResponse } from '@api/types';
+import { HomeRatesResponse, SendFeesResponse } from '@api/types';
 import { REACT_APP_FEES_URL, REACT_APP_RATES_URL } from '@env';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-/*
- ** Types
- */
-
-interface FeesResponse {}
 /*
  ** Components
  */
@@ -37,7 +32,7 @@ export const getRates = async (): Promise<HomeRatesResponse> => {
   return handleResponse(response);
 };
 
-export const getFees = async (): Promise<FeesResponse | undefined> => {
+export const getFees = async (): Promise<SendFeesResponse> => {
   const response = await apiClient.get(REACT_APP_FEES_URL + '/recommended');
   return handleResponse(response);
 };

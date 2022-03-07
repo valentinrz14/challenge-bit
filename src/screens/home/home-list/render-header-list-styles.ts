@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     width: '100%',
     paddingHorizontal: Platform.OS === 'ios' ? 20 : 0,
+    backgroundColor: Colors.white,
   },
   title: {
     maxHeight: 40,
@@ -23,7 +24,7 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
     marginHorizontal: 30,
     borderRadius: 8,
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.greyLight,
     alignItems: 'center',
     shadowColor: Colors.black,
     shadowOffset: {
@@ -35,13 +36,13 @@ export const styles = StyleSheet.create({
   },
   titleCurrency: {
     color: Colors.black,
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: Fonts.MontserratRegular,
   },
   titleCurrencyTransform: {
     color: Colors.black,
     marginTop: 5,
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: Fonts.MontserratLight,
   },
   containerLastMovements: {

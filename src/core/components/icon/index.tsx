@@ -1,5 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+/*
+ ** Types
+ */
 
 interface ChallengeBitIconProps {
   iconProps: {
@@ -8,6 +12,11 @@ interface ChallengeBitIconProps {
     color: string;
   };
 }
+
+/*
+ ** Component
+ */
+
 export const ChallengeBitIcon: FunctionComponent<ChallengeBitIconProps> = ({
   iconProps: { name, size, color },
 }) => {

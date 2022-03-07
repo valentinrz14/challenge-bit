@@ -1,37 +1,36 @@
-import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { getRates } from '@api/apiWrapper';
-import { HomeRatesResponse } from '@api/types';
+import { HomeRates, HomeRatesResponse } from '@api/types';
+import { useQuery } from 'react-query';
+import { AxiosError } from 'axios';
 /*
  ** Types
  */
 
 interface UseGetRatesHomeResponse {
-  rates?: HomeRatesResponse;
+  rates?: HomeRates['rates'];
   isFetching: boolean;
+  error: unknown;
 }
-
+/*
+ ** Constatns
+ */
+const PULLING_INTERVAL_TIME = 2000;
 /*
  ** Hook
  */
 
 export const useGetRatesHome = (): UseGetRatesHomeResponse => {
-  const [isFetching, setIsFetching] = useState<boolean>(true);
-  const [rates, setRates] = useState<HomeRatesResponse | undefined>();
+  const { data, isLoading, error } = useQuery<HomeRatesResponse, AxiosError>(
+    'rates',
+    getRates,
+    {
+      refetchInterval: PULLING_INTERVAL_TIME,
+      onError: () => {
+        Alert.alert('!Ups', ' Hubo un error al obtener los rates');
+      },
+    },
+  );
 
-  const fetchRates = async () => {
-    try {
-      const data = await getRates();
-      setRates(data);
-      setIsFetching(false);
-    } catch (error: any) {
-      Alert.alert('!Ups hubo un error', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchRates();
-  }, []);
-
-  return { isFetching, rates };
+  return { rates: data?.rates, isFetching: isLoading, error };
 };

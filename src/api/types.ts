@@ -7,10 +7,11 @@ export interface HomeListData {
   id: string;
   title: string;
   date: string;
-  currencyAmount: string;
+  currencyAmount: number;
   currencySymbol: string;
   state: keyof typeof HomeListStateEnum;
-  currencyAmountConverted: string;
+  destination: string;
+  currencyAmountConverted: number;
   currencySymbolConverted: string;
 }
 
@@ -171,4 +172,13 @@ export interface HomeRatesResponse extends HomeRates, HomeRatesVariation {
       name: string;
     };
   };
+}
+
+export interface SendFastestFees {
+  fastestFee: number;
+}
+
+export interface SendFeesResponse extends SendFastestFees {
+  halfHourFee: number;
+  hourFee: number;
 }
