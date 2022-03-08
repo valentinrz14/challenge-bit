@@ -26,16 +26,20 @@ export const useCreateOperation = ({
   currency,
   email,
 }: UseCreateOperationProps): UseCreateOperationResponse => {
+  const { balanceTransform } = useGetBalanceTranformed();
+
   const dispatch = useDispatch();
   const { loading } = useSelector((state: ReduxRootState) => state.home);
 
-  const { balanceTransform } = useGetBalanceTranformed();
   const { id } = useCreateRandomId();
 
   const [success, setsuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!loading && balanceTransform) {
+    if (!loading && balanceTransform && !success) {
+      const validationState = amount === 0.0000107 ? 'Rechazado' : 'Aceptado';
+      const date = new Date();
+
       const createOperation: HomeListData = {
         id,
         title: 'Enviado',
@@ -43,9 +47,9 @@ export const useCreateOperation = ({
         currencySymbol: currency,
         currencyAmountConverted: balanceTransform,
         currencySymbolConverted: 'ARS',
-        state: 'Aceptado',
+        state: validationState,
         destination: email,
-        date: '2020-08-20T16:00:00.000Z',
+        date: `${date}`,
       };
 
       dispatch(homeSetLoading());
@@ -53,7 +57,7 @@ export const useCreateOperation = ({
       setsuccess(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceTransform, loading]);
+  }, [balanceTransform, loading, success]);
 
   return { success };
 };

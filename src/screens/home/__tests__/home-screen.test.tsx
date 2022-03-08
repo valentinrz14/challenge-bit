@@ -1,35 +1,51 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
 import { HomeScreen } from '@screens/home';
+import { HomeState } from '@screens/home/home-list/redux/types';
+import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { Store, AnyAction } from 'redux';
-import { createTestStore } from '../../../../__tests__/utils/create-test-store';
+import { render } from '@testing-library/react-native';
 
 jest.useFakeTimers();
-
 jest.mock('react-query', () => ({
   useQuery: () => ({ isLoading: false, error: {}, data: {} }),
 }));
 
-let store: Store<any, AnyAction>;
 const routeMock: any = { params: undefined, screen: 'Home' };
 const navigationMock: any = {
   navigate: () => {},
 };
-
-beforeEach(() => {
-  store = createTestStore();
-});
+const INITIAL_STATE: HomeState = {
+  balance: 0,
+  operationList: [],
+  shortOperationList: [
+    {
+      id: '1',
+      title: 'Operacion 1',
+      date: '2020-01-01',
+      currencyAmount: 0,
+      currencySymbol: 'USD',
+      currencyAmountConverted: 0,
+      currencySymbolConverted: 'ARS',
+      destination: '',
+      state: 'Aceptado',
+    },
+  ],
+  loading: false,
+  error: null,
+};
 
 describe('Home Screen', () => {
   it('should render screen with one operation', () => {
-    const { getByTestId, toJSON } = render(
+    const mockStore = configureStore([]);
+    const store = mockStore({ home: INITIAL_STATE });
+    const component = (
       <Provider store={store}>
         <HomeScreen route={routeMock} navigation={navigationMock} />
-      </Provider>,
+      </Provider>
     );
+    const { getByTestId, toJSON } = render(component);
 
-    expect(getByTestId('home-screen')).toBeTruthy();
+    expect(getByTestId('home-screen-wrapper')).toBeTruthy();
     expect(getByTestId('home-screen-header')).toBeTruthy();
     expect(getByTestId('home-screen-list')).toBeTruthy();
 

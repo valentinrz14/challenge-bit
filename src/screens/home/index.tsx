@@ -1,16 +1,18 @@
-import { HomeStackParamsList } from '@navigation/home/types';
-import { DashboardStackParamsList } from '@navigation/types';
+import React, { FunctionComponent } from 'react';
+import { SafeAreaView, FlatList, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+import { HomeStackParamsList } from '@navigation/home/types';
+import { DashboardStackParamsList } from '@navigation/types';
 import { styles } from '@screens/home/home-styles';
-import React, { FunctionComponent } from 'react';
-import { SafeAreaView, FlatList, View, Text } from 'react-native';
-import { useSelector } from 'react-redux';
 import { ReduxRootState } from '@store/types';
-import { HomeListData } from '../../api/types';
+import { HomeListData } from '@api/types';
 import { RenderHeaderList } from './home-list/render-header-list';
 import { RenderItemList } from './home-list/render-item-list';
+import { H5 } from '@core/components/Typography/h5';
 /*
  ** Types
  */
@@ -24,11 +26,13 @@ interface HomeScreenProps extends HomeScreenNavigationProp {}
 /*
  ** Component
  */
-const keyExtractor = (item: HomeListData) => item.id;
+const keyExtractor = ({ id }: HomeListData) => id;
 
 const ListEmptyComponent = () => (
   <View style={styles.containerListEmpty}>
-    <Text style={styles.titleListEmpty}>No hay movimientos</Text>
+    <H5 color="black" fontFamily="MontserratRegular">
+      No hay movimientos
+    </H5>
   </View>
 );
 
@@ -39,17 +43,18 @@ const renderItem = ({ item }: { item: HomeListData }) => {
 const itemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
 export const HomeScreen: FunctionComponent<HomeScreenProps> = () => {
-  const { shortOperationList, loading } = useSelector(
+  const { shortOperationList, loading, operationList } = useSelector(
     (state: ReduxRootState) => state.home,
   );
 
   return (
-    <SafeAreaView style={styles.mainContainer} testID="home-screen">
+    <SafeAreaView style={styles.mainContainer} testID="home-screen-wrapper">
       <RenderHeaderList
         testID="home-screen-header"
-        showMoreLastMovements={shortOperationList.length >= 5}
+        showMoreLastMovements={operationList.length > 5}
       />
       <FlatList
+        bounces={false}
         testID="home-screen-list"
         style={styles.container}
         data={shortOperationList}

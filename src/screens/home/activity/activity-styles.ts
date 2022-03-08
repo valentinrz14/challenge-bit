@@ -17,18 +17,19 @@ const getPaddingHorizontal = (): number =>
 /*
  ** Styles
  */
-
 export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: Colors.white,
-    paddingHorizontal: PaddingsHorizontal.extraLarge,
-    paddingVertical: PaddingsVertical.extraLarge,
+  },
+  title: {
+    textAlign: 'center',
+    marginVertical: MarginsVertical.large,
   },
   container: {
     flex: 1,
-    marginTop: 20,
     paddingHorizontal: getPaddingHorizontal(),
+    backgroundColor: Colors.white,
   },
   contentList: {
     ...getShadowStyle({
@@ -38,7 +39,7 @@ export const styles = StyleSheet.create({
     }),
     borderRadius: 8,
     paddingHorizontal: PaddingsHorizontal.medium,
-    paddingVertical: PaddingsVertical.extraLarge,
+    paddingVertical: PaddingsVertical.medium,
     backgroundColor: Colors.greyLight,
   },
   itemSeparator: {
@@ -46,11 +47,5 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.greyMedium,
     height: 1,
     marginVertical: MarginsVertical.medium,
-  },
-  containerListEmpty: {
-    flex: 1,
-    backgroundColor: Colors.greyLight,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

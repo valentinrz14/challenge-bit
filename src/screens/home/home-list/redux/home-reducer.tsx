@@ -12,7 +12,7 @@ import {
  ** Constants
  */
 const INITIAL_STATE: HomeState = {
-  balance: 0.0000155,
+  balance: 0.0001655,
   loading: false,
   shortOperationList: [],
   operationList: [],
@@ -28,14 +28,22 @@ export const HomeReducer = (state = INITIAL_STATE, action: HomeActionTypes) => {
   }
 
   if (action.type === HOME_ADD_OPERATION_LIST) {
+    const transformBalance =
+      state.balance - action.payload.operationList.currencyAmount;
+
+    const getOperationList = [
+      ...state.operationList,
+      action.payload.operationList,
+    ];
+
     return {
       ...state,
-      balance: action.payload.operationList.currencyAmount,
-      operationList: [...state.operationList, action.payload.operationList],
+      balance: transformBalance.toFixed(7),
+      operationList: getOperationList,
       shortOperationList:
         state.operationList.length === 0
           ? [action.payload.operationList]
-          : state.operationList.slice(0, 5),
+          : getOperationList.slice(0, 5),
       loading: false,
     };
   }

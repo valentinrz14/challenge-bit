@@ -5,7 +5,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 /*
  ** Types
  */
-interface LayoutLoadingProps {
+interface LoadingProps {
   color?: string;
   size?: 'large' | 'small';
 }
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 /*
  ** Component
  */
-export const LayoutLoading: FunctionComponent<LayoutLoadingProps> = ({
+export const Loading: FunctionComponent<LoadingProps> = ({
   color = Colors.blue,
   size = 'large',
 }) => {

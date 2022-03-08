@@ -7,4 +7,4 @@ export const Fonts = {
   MontserratSemiBold: 'Montserrat-SemiBold',
 };
 
-export type FontsTypes = typeof Fonts;
+export type FontsTypes = keyof typeof Fonts;

@@ -23,7 +23,7 @@ export const useGetBalanceTranformed = (): UseGetBalanceTransformedResponse => {
   useEffect(() => {
     if (rates) {
       const balanceFormated = (rates.ARS_SELL * balance) / 1.0;
-      setBalanceTransform(Number(balanceFormated?.toFixed(5)));
+      setBalanceTransform(Number(balanceFormated?.toFixed(4)));
     }
   }, [balance, rates]);
 

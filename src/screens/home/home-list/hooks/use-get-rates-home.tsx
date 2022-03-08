@@ -15,7 +15,7 @@ interface UseGetRatesHomeResponse {
 /*
  ** Constatns
  */
-const PULLING_INTERVAL_TIME = 2000;
+const PULLING_INTERVAL_TIME = 3000;
 /*
  ** Hook
  */

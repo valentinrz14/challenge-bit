@@ -1,10 +1,12 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SendStackParamsList } from '@navigation/send/types';
 import { DashboardStackParamsList } from '@navigation/types';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCreateOperation } from '@screens/send/layout-loading-operation/hooks/use-create-operation';
+import { Loading } from '@core/components/loading';
+import { H5 } from '@core/components/Typography';
 
 /*
  ** Types
@@ -33,6 +35,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  title: {
+    marginTop: 20,
+    textAlign: 'center',
+  },
 });
 /*
  ** Component
@@ -44,18 +50,29 @@ export const LayoutLoadingOperationScreen: FunctionComponent<
   const { success } = useCreateOperation(params);
 
   useEffect(() => {
-    if (success) {
-      navigation.reset({
-        index: 0,
-        routeNames: ['SendStack'],
-        routes: [{ name: 'HomeStack' }],
-      });
-    }
+    const timer = setTimeout(() => {
+      if (success) {
+        navigation.reset({
+          index: 0,
+          routeNames: ['SendStack'],
+          routes: [{ name: 'HomeStack' }],
+        });
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, [navigation, success]);
 
   return (
     <View style={styles.container}>
-      <Text>LayoutLoadingOperationScreen</Text>
+      <Loading />
+      <H5
+        color="black"
+        fontFamily="MontserratSemiBold"
+        textStyle={styles.title}
+      >
+        Procesando su operacion, en unos segundos sera redirigo
+      </H5>
     </View>
   );
 };

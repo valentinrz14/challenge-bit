@@ -1,5 +1,8 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
 import { HomeScreen } from '@screens/home';
 import { ActivityScreen } from '@screens/home/activity';
 import { DetailsScreen } from '@screens/home/detail';
@@ -8,6 +11,16 @@ import { Colors } from '@core/styles/colors';
 
 const Stack = createNativeStackNavigator<HomeStackParamsList>();
 
+const getOptionsHeader: NativeStackNavigationOptions = {
+  headerTitle: '',
+  headerBackTitleVisible: false,
+  headerShadowVisible: false,
+  headerTransparent: false,
+  headerStyle: {
+    backgroundColor: Colors.white,
+  },
+};
+
 export const HomeStack = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -15,18 +28,15 @@ export const HomeStack = () => (
       component={HomeScreen}
       options={{ headerShown: false }}
     />
-    <Stack.Screen name="Activity" component={ActivityScreen} />
+    <Stack.Screen
+      name="Activity"
+      component={ActivityScreen}
+      options={getOptionsHeader}
+    />
     <Stack.Screen
       name="Details"
       component={DetailsScreen}
-      options={{
-        headerTitle: '',
-        headerBackTitleVisible: false,
-        headerShadowVisible: false,
-        headerStyle: {
-          backgroundColor: Colors.white,
-        },
-      }}
+      options={getOptionsHeader}
     />
   </Stack.Navigator>
 );

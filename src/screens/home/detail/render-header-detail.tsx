@@ -1,9 +1,10 @@
 import { HomeListStateEnum } from '@api/types';
 import { ChallengeBitIcon } from '@core/components/icon';
+import { H4 } from '@core/components/Typography/h4';
 import { Colors } from '@core/styles/colors';
-import { Fonts } from '@core/styles/fonts';
+import { PaddingsHorizontal } from '@core/styles/spaces';
 import React, { FunctionComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 /*
  ** Types
@@ -18,7 +19,7 @@ interface RenderHeaderDetailProps {
  */
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: PaddingsHorizontal.extraLarge,
     marginTop: 20,
     alignItems: 'center',
     backgroundColor: Colors.white,
@@ -26,11 +27,12 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 5,
     textAlign: 'center',
-    fontFamily: Fonts.MontserratMedium,
-    color: Colors.black,
-    fontSize: 20,
   },
 });
+/*
+ ** Constants
+ */
+const SIZE_ICON = 120;
 /*
  ** Component
  */
@@ -44,7 +46,7 @@ export const RenderHeaderDetail: FunctionComponent<RenderHeaderDetailProps> = ({
         <ChallengeBitIcon
           iconProps={{
             name: 'check-circle',
-            size: 120,
+            size: SIZE_ICON,
             color: Colors.green,
           }}
         />
@@ -52,15 +54,27 @@ export const RenderHeaderDetail: FunctionComponent<RenderHeaderDetailProps> = ({
         <ChallengeBitIcon
           iconProps={{
             name: 'close-circle-outline',
-            size: 120,
+            size: SIZE_ICON,
             color: Colors.red,
           }}
         />
       )}
       {state === 'Aceptado' ? (
-        <Text style={styles.title}>Envio exitoso</Text>
+        <H4
+          color="black"
+          fontFamily="MontserratMedium"
+          textStyle={styles.title}
+        >
+          Envio exitoso
+        </H4>
       ) : (
-        <Text style={styles.title}>Envio Rechazado</Text>
+        <H4
+          color="black"
+          fontFamily="MontserratMedium"
+          textStyle={styles.title}
+        >
+          Envio exitoso
+        </H4>
       )}
     </View>
   );

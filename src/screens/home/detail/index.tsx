@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { Colors } from '@core/styles/colors';
 import { RenderContentDetail } from '@screens/home/detail/render-content-detail';
 import { RenderHeaderDetail } from '@screens/home/detail/render-header-detail';
@@ -9,7 +9,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { styles } from '@screens/home/detail/detail-styles';
 import { useSelector } from 'react-redux';
 import { ReduxRootState } from '@store/types';
-import { LayoutLoading } from '@core/components/layout-loading';
+import { Loading } from '@core/components/loading';
+import { H6 } from '@core/components/Typography';
+import { useFormatDate, useFormatDateHour } from '@core/hooks/useFormatDate';
 
 /*
  ** Types
@@ -29,8 +31,11 @@ export const DetailsScreen: FunctionComponent<DetailsScreenProps> = () => {
     (state: ReduxRootState) => state.homeDetail,
   );
 
+  const { newHour } = useFormatDateHour({ date: operationDetail?.date || '' });
+  const { newDate } = useFormatDate({ date: operationDetail?.date || '' });
+
   if (loading) {
-    return <LayoutLoading size="large" />;
+    return <Loading size="large" />;
   }
 
   const backgroundColor =
@@ -42,20 +47,24 @@ export const DetailsScreen: FunctionComponent<DetailsScreenProps> = () => {
       <View style={styles.mainContainer}>
         <RenderHeaderDetail state={operationDetail?.state} />
         <View style={styles.container}>
-          <Text>Detalle de operacion</Text>
+          <H6 color="black" fontFamily="MontserratRegular">
+            Detalle de operacion
+          </H6>
           <View style={styles.content}>
             <RenderContentDetail
               title="Operacion"
               subtitle={operationDetail?.title}
             />
             <RenderContentDetail title="ID" subtitle={operationDetail?.id} />
-            <RenderContentDetail
-              title="Fecha"
-              subtitle={operationDetail?.date}
-            />
+            <RenderContentDetail title="Fecha" subtitle={newDate} />
+            <RenderContentDetail title="Hora" subtitle={newHour} />
             <RenderContentDetail
               title="Importe"
               subtitle={`$${operationDetail?.currencyAmount} ${operationDetail?.currencySymbol}`}
+            />
+            <RenderContentDetail
+              title="Importe en ARS"
+              subtitle={`$${operationDetail?.currencyAmountConverted} ${operationDetail?.currencySymbolConverted}`}
             />
             <RenderContentDetail
               title="Destino"

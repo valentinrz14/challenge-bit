@@ -13,3 +13,12 @@ export const useFormatDate = ({ date }: UseFormatDateProps) => {
   }
   return { newDate: '' };
 };
+
+export const useFormatDateHour = ({ date }: UseFormatDateProps) => {
+  if (date) {
+    const dateTransform = new Date(date);
+    const newHour = format(dateTransform, 'p', { locale: es });
+    return { newHour };
+  }
+  return { newHour: '' };
+};

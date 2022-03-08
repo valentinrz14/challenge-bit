@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { styles } from '@screens/send/send-styles';
@@ -11,10 +11,12 @@ import { SendStackParamsList } from '@navigation/send/types';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { useGetFees } from '@screens/send/hook/use-get-fees';
-import { LayoutLoading } from '@core/components/layout-loading';
+import { Loading } from '@core/components/loading';
 import { FormValues } from '@screens/send/input/types';
 import { useSelector } from 'react-redux';
 import { ReduxRootState } from '@store/types';
+import { H2 } from '@core/components/Typography/h2';
+import { H5 } from '@core/components/Typography/h5';
 
 /*
  ** Types
@@ -35,18 +37,23 @@ const initialValues: FormValues = {
   currency: 'BTC',
 };
 
-const FormSchema = (balance: number, feed: number) =>
+const FormSchema = (balance: number, fees: number) =>
   Yup.object().shape({
     email: Yup.string()
+      .trim()
       .matches(/^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/gm, 'Direccion invalida')
       .required('Ingresa una Direccion de BTC'),
     amount: Yup.number()
-      .max(
-        balance - feed,
-        `No tenes fondos suficientes, recorda que se suma la comision (${feed} BTC)`,
-      )
-      .moreThan(0.00000001, 'El monto debe ser mayor a 0.00000001 BTC')
-      .required('Debes ingresar un monto a enviar'),
+      .positive()
+      .min(0.0000001, 'El monto debe ser mayor a 0.0000001 BTC')
+      .required('Debes ingresar un monto a enviar')
+      .test('amount', 'No tenes fondos suficientes', (value?: number) => {
+        if (value && fees + value <= balance) {
+          return true;
+        } else {
+          return false;
+        }
+      }),
   });
 
 /*
@@ -60,9 +67,11 @@ export const SendScreen: FunctionComponent<SendScreenProps> = ({
   const { balance } = useSelector((state: ReduxRootState) => state.home);
 
   const handleSubmitPress = (values: FormValues) => {
+    const amount = (Number(values.amount) + Number(fees)).toFixed(7);
+
     navigation.navigate('SendLayoutLoadingOperation', {
       ...values,
-      amount: Number(values.amount),
+      amount: Number(amount),
     });
   };
 
@@ -70,7 +79,13 @@ export const SendScreen: FunctionComponent<SendScreenProps> = ({
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <Text style={styles.title}>Enviar BTC</Text>
+      <H2
+        color="black"
+        fontFamily="MontserratSemiBold"
+        textStyle={styles.title}
+      >
+        Enviar BTC
+      </H2>
       <Formik
         initialValues={initialValues}
         validationSchema={FormSchema(balance, fees || 0)}
@@ -104,7 +119,7 @@ export const SendScreen: FunctionComponent<SendScreenProps> = ({
               error={errorEmail && touchedEmail}
             />
             {isFetchingFees ? (
-              <LayoutLoading />
+              <Loading />
             ) : (
               <Input
                 name="amount"
@@ -113,6 +128,7 @@ export const SendScreen: FunctionComponent<SendScreenProps> = ({
                 values={values}
                 handleChange={handleChange}
                 handleOnBlur={handleBlur}
+                maxLength={9}
                 icon={{
                   name: 'currency-usd',
                   size: 25,
@@ -135,7 +151,9 @@ export const SendScreen: FunctionComponent<SendScreenProps> = ({
               disabled={!isValid}
               onPress={handleSubmit}
             >
-              <Text style={styles.titleBtn}>Enviar</Text>
+              <H5 color="white" fontFamily="MontserratSemiBold">
+                Enviar
+              </H5>
             </TouchableOpacity>
           </View>
         )}

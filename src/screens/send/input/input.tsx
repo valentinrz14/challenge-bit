@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import { Colors } from '@core-styles/colors';
 import { FormikHandlers, FormikValues } from 'formik';
 import {
-  Text,
   TextInput,
   TextInputProps,
   TouchableOpacity,
@@ -11,6 +10,7 @@ import {
 import { ChallengeBitIcon } from '@core/components/icon';
 import { FormValues } from '@screens/send/input/types';
 import { styles } from '@screens/send/input/input-styles';
+import { H6, H7 } from '@core/components/Typography';
 
 /*
  ** Types
@@ -56,7 +56,7 @@ export const Input: FunctionComponent<InputProps> = ({
   ...props
 }) => {
   const validationBorderColor = () => {
-    if (values[name] === '' || values[name] === '0') {
+    if (values[name] === '' || values[name] === '0.0') {
       return Colors.greyMedium;
     } else if (error || textError) {
       return Colors.red;
@@ -65,13 +65,18 @@ export const Input: FunctionComponent<InputProps> = ({
     }
   };
 
-  const TOTAL = (Number(values.amount) + Number(fees)).toFixed(8);
-  console.log(TOTAL);
+  const TOTAL = (Number(values.amount) + Number(fees)).toFixed(7);
 
   return (
     <View style={styles.containerInput}>
       {comision && (
-        <Text style={styles.titleBalance}>Tu balance: {balance} BTC</Text>
+        <H6
+          color="black"
+          fontFamily="MontserratRegular"
+          textStyle={styles.titleBalance}
+        >
+          Tu balance: {balance} BTC
+        </H6>
       )}
       <View style={styles.contentInput}>
         <TextInput
@@ -107,12 +112,28 @@ export const Input: FunctionComponent<InputProps> = ({
       <View
         style={[styles.line, { backgroundColor: validationBorderColor() }]}
       />
-      {error && textError && <Text style={styles.textError}>{textError}</Text>}
-      {comision && (
-        <Text style={styles.titleComision}>Comision de la red: {fees} BTC</Text>
+      {error && (
+        <H7 fontFamily="MontserratRegular" color="red" textStyle={styles.title}>
+          {textError}
+        </H7>
       )}
-      {!error && !textError && comision && (
-        <Text style={styles.titleTotal}>Total: {TOTAL} BTC</Text>
+      {comision && (
+        <H7
+          fontFamily="MontserratRegular"
+          color="black"
+          textStyle={styles.title}
+        >
+          Comision de la red: {fees} BTC
+        </H7>
+      )}
+      {!error && comision && (
+        <H7
+          fontFamily="MontserratSemiBold"
+          color="black"
+          textStyle={styles.title}
+        >
+          Total: {TOTAL} BTC
+        </H7>
       )}
     </View>
   );

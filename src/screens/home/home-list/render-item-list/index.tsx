@@ -1,15 +1,16 @@
 import React, { FunctionComponent } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Spacer } from '@core/components/spacer/spacer';
 import { HomeStackParamsList } from '@navigation/home/types';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { styles } from '@screens/home/home-list/render-item-list-styles';
+import { styles } from '@screens/home/home-list/render-item-list/render-item-list-styles';
 import { HomeListData, HomeListStateEnum } from '@api/types';
 import { useFormatDate } from '@core-hooks/useFormatDate';
-import { Colors } from '@core/styles/colors';
 import { homeDetailAddOperationDetail } from '@screens/home/detail/redux/home-detail-actions';
 import { useDispatch } from 'react-redux';
+import { H6, H7 } from '@core/components/Typography';
+import { ColorsEnum } from '@core/styles/colors';
 
 /*
  ** Types
@@ -41,9 +42,9 @@ export const RenderItemList: FunctionComponent<RenderItemListProps> = ({
   const { navigate } =
     useNavigation<NativeStackNavigationProp<HomeStackParamsList>>();
 
-  const colorState = {
-    [HomeListStateEnum.Aceptado]: Colors.green,
-    [HomeListStateEnum.Rechazado]: Colors.red,
+  const colorState: Record<HomeListStateEnum, ColorsEnum> = {
+    [HomeListStateEnum.Aceptado]: 'green',
+    [HomeListStateEnum.Rechazado]: 'red',
   };
 
   const handleGoToActivity = () => {
@@ -54,21 +55,23 @@ export const RenderItemList: FunctionComponent<RenderItemListProps> = ({
   return (
     <TouchableOpacity style={styles.container} onPress={handleGoToActivity}>
       <View>
-        <Text style={[styles.title, { color: colorState[state] }]}>
+        <H6 color={colorState[state]} fontFamily="MontserratRegular">
           {title} {currencySymbol}
-        </Text>
+        </H6>
         <Spacer height={5} />
-        <Text style={styles.subtitle}>{newDate}</Text>
+        <H7 color="black" fontFamily="MontserratLight">
+          {newDate}
+        </H7>
         <Spacer height={5} />
       </View>
       <View>
-        <Text style={[styles.title, { color: colorState[state] }]}>
+        <H6 color={colorState[state]} fontFamily="MontserratRegular">
           {currencyAmount} {currencySymbol}
-        </Text>
+        </H6>
         <Spacer height={5} />
-        <Text style={styles.subtitle}>
-          {currencyAmountConverted} {currencySymbolConverted}
-        </Text>
+        <H7 color="black" fontFamily="MontserratLight">
+          ${currencyAmountConverted} {currencySymbolConverted}
+        </H7>
       </View>
     </TouchableOpacity>
   );

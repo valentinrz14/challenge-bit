@@ -9,3 +9,5 @@ export const Colors = {
   red: '#FF0000',
   blue: '#337BF6',
 };
+
+export type ColorsEnum = keyof typeof Colors;
