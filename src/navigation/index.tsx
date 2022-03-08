@@ -12,12 +12,12 @@ export const DashboardStack = () => (
     <Tab.Screen
       name="HomeStack"
       component={HomeStack}
-      options={getOptionsBottom({ title: 'Inicio', iconTitle: 'home' })}
+      options={getOptionsBottom({ title: 'Inicio', iconTitle: 'Home' })}
     />
     <Tab.Screen
       name="SendStack"
       component={SendStack}
-      options={getOptionsBottom({ title: 'Enviar', iconTitle: 'send' })}
+      options={getOptionsBottom({ title: 'Enviar', iconTitle: 'Send' })}
     />
   </Tab.Navigator>
 );

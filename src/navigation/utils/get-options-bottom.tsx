@@ -3,16 +3,18 @@ import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { ChallengeBitIcon } from '../../core/components/icon/';
 import { Colors } from '../../core/styles/colors';
 import { Fonts } from '@core/styles/fonts';
+import { IconsEnum } from '@core-components/icon/index';
 /*
  ** Types
  */
 interface GetOptionsBottom {
   title: string;
-  iconTitle: string;
+  iconTitle: IconsEnum;
 }
 /*
  ** Component
  */
+
 export const getOptionsBottom = ({
   title,
   iconTitle,
@@ -28,7 +30,13 @@ export const getOptionsBottom = ({
         iconProps={{
           name: iconTitle,
           size,
-          color: focused ? color : Colors.greyMedium,
+          color:
+            iconTitle === 'Home'
+              ? 'transparent'
+              : focused
+              ? color
+              : Colors.greyMedium,
+          colorTwo: focused ? color : Colors.greyMedium,
         }}
       />
     ),

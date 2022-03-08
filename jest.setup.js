@@ -12,8 +12,4 @@ module.exports = {
       }),
     };
   }),
-  mockedReactNativeVectorIcons: jest.mock(
-    'react-native-vector-icons/MaterialCommunityIcons',
-    () => 'MockedMaterialCommunityIcons',
-  ),
 };

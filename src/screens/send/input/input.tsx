@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ChallengeBitIcon } from '@core/components/icon';
+import { ChallengeBitIcon, IconsEnum } from '@core/components/icon';
 import { FormValues } from '@screens/send/input/types';
 import { styles } from '@screens/send/input/input-styles';
 import { H6, H7 } from '@core/components/Typography';
@@ -25,8 +25,9 @@ interface InputProps extends TextInputProps {
   error?: boolean | string;
   textError?: string;
   icon?: {
-    name: string;
+    name: IconsEnum;
     color: string;
+    colorTwo?: string;
     size: number;
     handleOnPress?: () => void;
     disabled?: boolean;
@@ -104,6 +105,7 @@ export const Input: FunctionComponent<InputProps> = ({
                 name: icon.name,
                 size: icon.size,
                 color: icon.color,
+                colorTwo: icon.colorTwo,
               }}
             />
           </TouchableOpacity>

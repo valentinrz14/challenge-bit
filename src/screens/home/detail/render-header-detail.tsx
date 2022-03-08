@@ -45,7 +45,7 @@ export const RenderHeaderDetail: FunctionComponent<RenderHeaderDetailProps> = ({
       {state === 'Aceptado' ? (
         <ChallengeBitIcon
           iconProps={{
-            name: 'check-circle',
+            name: 'Check',
             size: SIZE_ICON,
             color: Colors.green,
           }}
@@ -53,9 +53,10 @@ export const RenderHeaderDetail: FunctionComponent<RenderHeaderDetailProps> = ({
       ) : (
         <ChallengeBitIcon
           iconProps={{
-            name: 'close-circle-outline',
+            name: 'Error',
             size: SIZE_ICON,
-            color: Colors.red,
+            color: 'transparent',
+            colorTwo: Colors.red,
           }}
         />
       )}

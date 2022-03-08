@@ -110,8 +110,8 @@ export const SendScreen: FunctionComponent<SendScreenProps> = ({
               handleChange={handleChange}
               handleOnBlur={handleBlur}
               icon={{
-                name: 'qrcode',
-                size: 20,
+                name: 'QRCode',
+                size: 25,
                 color: Colors.black,
                 handleOnPress: handleQrPress,
               }}
@@ -130,9 +130,10 @@ export const SendScreen: FunctionComponent<SendScreenProps> = ({
                 handleOnBlur={handleBlur}
                 maxLength={9}
                 icon={{
-                  name: 'currency-usd',
-                  size: 25,
-                  color: Colors.black,
+                  name: 'Dollar',
+                  size: 30,
+                  color: 'transparent',
+                  colorTwo: Colors.black,
                   disabled: true,
                 }}
                 comision={true}

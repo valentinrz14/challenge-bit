@@ -5,7 +5,7 @@ import { Colors } from '@core/styles/colors';
 
 export const App: FunctionComponent = () => ( 
     <ChallengeBitIcon
-        iconProps={{ name: 'account', size: 20, color: Colors.black }}
+        iconProps={{ name: 'home', size: 20, color: Colors.black }}
       />
 )
 ```

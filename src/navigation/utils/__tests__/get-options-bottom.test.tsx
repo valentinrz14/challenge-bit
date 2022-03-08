@@ -2,7 +2,6 @@ import { ChallengeBitIcon } from '@core/components/icon';
 import { Colors } from '@core/styles/colors';
 import { Fonts } from '@core/styles/fonts';
 import { getOptionsBottom } from '@navigation/utils/get-options-bottom';
-
 /*
  ** Tests
  */
@@ -10,7 +9,6 @@ describe('getOptionsBottom', () => {
   it('should return a BottomTabNavigationOptions for HomeStack', () => {
     const GET_OPTIONS_BOTTOM_PROPS = {
       title: 'Inicio',
-      iconTitle: 'home',
     };
     const mockedGetOptionsBottomResponse = {
       tabBarLabel: GET_OPTIONS_BOTTOM_PROPS.title,
@@ -21,7 +19,7 @@ describe('getOptionsBottom', () => {
       tabBarIcon: () => (
         <ChallengeBitIcon
           iconProps={{
-            name: GET_OPTIONS_BOTTOM_PROPS.iconTitle,
+            name: 'Home',
             size: 24,
             color: Colors.greyMedium,
           }}
@@ -29,7 +27,10 @@ describe('getOptionsBottom', () => {
       ),
     };
 
-    const options = getOptionsBottom({ ...GET_OPTIONS_BOTTOM_PROPS });
+    const options = getOptionsBottom({
+      iconTitle: 'Home',
+      title: GET_OPTIONS_BOTTOM_PROPS.title,
+    });
 
     expect(JSON.stringify(options)).toEqual(
       JSON.stringify(mockedGetOptionsBottomResponse),
@@ -38,7 +39,6 @@ describe('getOptionsBottom', () => {
   it('should return a BottomTabNavigationOptions for SendStack', () => {
     const GET_OPTIONS_BOTTOM_PROPS = {
       title: 'Enviar',
-      iconTitle: 'send',
     };
 
     const mockedGetOptionsBottomResponse = {
@@ -50,14 +50,17 @@ describe('getOptionsBottom', () => {
       tabBarIcon: () => (
         <ChallengeBitIcon
           iconProps={{
-            name: GET_OPTIONS_BOTTOM_PROPS.iconTitle,
+            name: 'Send',
             size: 24,
             color: Colors.greyMedium,
           }}
         />
       ),
     };
-    const options = getOptionsBottom({ ...GET_OPTIONS_BOTTOM_PROPS });
+    const options = getOptionsBottom({
+      iconTitle: 'Send',
+      title: GET_OPTIONS_BOTTOM_PROPS.title,
+    });
 
     expect(JSON.stringify(options)).toEqual(
       JSON.stringify(mockedGetOptionsBottomResponse),
